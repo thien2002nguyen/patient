@@ -15,9 +15,8 @@
 }
 .wrapper .children {
   width: 80%;
-  margin-top: 10px;
   max-height: 100vh;
-  overflow: scroll;
+  overflow-y: scroll;
   position: relative;
 }
 .wrapper .btn-logout {

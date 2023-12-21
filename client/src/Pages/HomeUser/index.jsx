@@ -1,16 +1,11 @@
 import React, { useEffect } from 'react';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from 'react-bootstrap/Table';
-
-import classNames from 'classnames/bind';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 // const cx = classNames.bind(styles);
 const HomeUser = () => {
   const [data, setData] = React.useState();
-  const navigate = useNavigate();
   useEffect(() => {
     const getUser = async () => {
       const refreshToken = localStorage.getItem('refreshToken')
@@ -20,13 +15,14 @@ const HomeUser = () => {
           Authorization: response.data.newAccessToken
         }
       });
-      setData(res?.data.users)
+      const newRes = res.data.users.filter(item => item.role !== 'admin')
+      setData(newRes);
     };
     getUser();
-  }, []);
+  }, [data]);
   return (
     <>
-      <div>
+      <div className='overflow-auto'>
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
@@ -36,7 +32,7 @@ const HomeUser = () => {
             </tr>
           </thead>
           <tbody>
-            {data && data.map((item, index) => (
+            {data?.map((item, index) => (
               <tr key={index}>
                 <td>{item.name}</td>
                 <td>{item.email}</td>

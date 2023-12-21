@@ -6,6 +6,9 @@ import UserManage from '../Pages/Users';
 import Login from '../Pages/Login';
 import RegisterPage from '../Pages/Register';
 import UserLayout from '../Components/UserLayout';
+import LayoutUserHome from '../Pages/LayoutUserHome';
+import MedicalRecord from '../Pages/MedicalRecord';
+import Contact from '../Pages/Contact';
 
 const InitRouters = [
   {
@@ -44,7 +47,18 @@ const InitRouters = [
     element: <UserLayout />,
     requiredRole: 'user',
     children: [
-
+      {
+        path: '/user',
+        element: <LayoutUserHome />,
+      },
+      {
+        path: '/user/medicalrecord',
+        element: <MedicalRecord />,
+      },
+      {
+        path: '/user/contact',
+        element: <Contact />,
+      },
     ],
   },
 ];

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './Admin.module.scss';
 import classNames from 'classnames/bind';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,13 +11,10 @@ import {
   faChartLine,
   faUser,
   faNewspaper,
-  faCog,
-  faSuitcaseRolling,
   faSignOutAlt,
 } from '@fortawesome/free-solid-svg-icons';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 const cx = classNames.bind(styles);
 function AdminLayout() {
   const navigate = useNavigate();

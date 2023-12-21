@@ -1,13 +1,8 @@
 import React, { useEffect } from 'react';
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Table from 'react-bootstrap/Table';
-
-import styles from './HomePatient.module.scss';
-import classNames from 'classnames/bind';
 import axios from 'axios';
 
-// const cx = classNames.bind(styles);
 const HomePatient = () => {
   const [data, setData] = React.useState([]);
   useEffect(() => {
@@ -22,10 +17,10 @@ const HomePatient = () => {
       setData(res.data.users);
     };
     getUser();
-  }, []);
+  }, [data]);
   return (
     <>
-      <div>
+      <div className='overflow-auto'>
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
@@ -38,7 +33,7 @@ const HomePatient = () => {
             </tr>
           </thead>
           <tbody>
-            {data && data.map((item, index) => (
+            {data?.map((item, index) => (
               <tr key={index}>
                 <td className='text-nowrap'>{item.name}</td>
                 <td className='text-nowrap'>{item.age}</td>

@@ -21,7 +21,8 @@ const ManageUser = () => {
           Authorization: response.data.newAccessToken
         }
       });
-      setUser(res.data.users);
+      const newRes = res.data.users.filter(item => item.role !== 'admin')
+      setUser(newRes);
     };
     getUser();
   }, []);
@@ -59,21 +60,19 @@ const ManageUser = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-      <Table striped bordered hover size="sm">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Role</th>
-          </tr>
-        </thead>
-        <tbody>
-          {user
-            .filter((user) =>
-              user.name.toLowerCase().includes(search.toLowerCase())
-            )
-            .map((item, index) => (
+      <div className='overflow-auto'>
+        <Table striped bordered hover size="sm">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {user?.map((item, index) => (
               <tr key={index}>
                 <td>{item.name}</td>
                 <td>{item.email}</td>
@@ -95,8 +94,9 @@ const ManageUser = () => {
                 </td>
               </tr>
             ))}
-        </tbody>
-      </Table>
+          </tbody>
+        </Table>
+      </div>
     </>
   );
 };

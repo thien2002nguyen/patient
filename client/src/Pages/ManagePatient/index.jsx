@@ -28,10 +28,11 @@ const ManagePatients = () => {
 
   const handleDelete = async (_id, name) => {
     if (window.confirm(`Are you sure you want to delete user ${name} ?`)) {
-      const Authorization = localStorage.getItem('accessToken')
+      const refreshToken = localStorage.getItem('refreshToken')
+      const response = await axios.post('http://localhost:5000/api/user/refreshtoken', { refreshToken: refreshToken })
       const result = await axios.delete(`http://localhost:5000/api/patient/?_id=${_id}`, {
         headers: {
-          Authorization: Authorization
+          Authorization: response.data.newAccessToken
         }
       });
       if (result.status !== 200) {
@@ -55,25 +56,22 @@ const ManagePatients = () => {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-      <Table striped bordered hover size="sm">
-        <thead>
-          <tr>
-            <th className='text-nowrap'>Name</th>
-            <th className='text-nowrap'>Age</th>
-            <th className='text-nowrap'>Phone</th>
-            <th className='text-nowrap'>Address</th>
-            <th className='text-nowrap'>Health Insurance Card Number</th>
-            <th className='text-nowrap'>Diagnosis</th>
-            <th className='text-nowrap'>Doctor</th>
-            <th className='text-nowrap'>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {user
-            .filter((user) =>
-              user.name.toLowerCase().includes(search.toLowerCase())
-            )
-            .map((item, index) => (
+      <div className='overflow-auto'>
+        <Table striped bordered hover size="sm">
+          <thead>
+            <tr>
+              <th className='text-nowrap'>Name</th>
+              <th className='text-nowrap'>Age</th>
+              <th className='text-nowrap'>Phone</th>
+              <th className='text-nowrap'>Address</th>
+              <th className='text-nowrap'>Health Insurance Card Number</th>
+              <th className='text-nowrap'>Diagnosis</th>
+              <th className='text-nowrap'>Doctor</th>
+              <th className='text-nowrap'>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {user?.map((item, index) => (
               <tr key={index}>
                 <td className='text-nowrap'>{item.name}</td>
                 <td className='text-nowrap'>{item.age}</td>
@@ -110,8 +108,9 @@ const ManagePatients = () => {
                 </td>
               </tr>
             ))}
-        </tbody>
-      </Table>
+          </tbody>
+        </Table>
+      </div>
     </>
   );
 };
